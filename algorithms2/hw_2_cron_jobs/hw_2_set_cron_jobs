@@ -1,0 +1,76 @@
+1) IN TERMINAL WINDOW 1:
+
+1) cd into directory where scraper lives and send it securely (secure copy) to the external server:
+scp -i ~/.ssh/algorithms_key propublica_scraper.py root@67.205.133.233:~/
+
+note that the ~/ after the : is the place on the external server where you're saving the file
+
+-i ((algorithms_key)) (file you want to send) (identify yourself as root user at this ip address) :~/ is the location ON YOUR SERVER you want to send it to 
+
+2. IN TERMINAL WINDOW 2:
+	a) CONNECT TO EXTERNAL SERVER:
+		ssh -i ~/.ssh/algorithms_key root@67.205.133.233
+
+
+	b) python3 scraper.py (((scraper.py is the name of your scraper that you sent to the server)))
+
+	b) create cronjob:
+
+		crontab -e
+
+MAILTO=kc3053@columbia.edu
+
+	0 8,12,16 * * * curl --silent https://www.propublica.org/ > ~/propublica.txt
+	0 8,12,16 * * * curl --silent https://www.propublica.org/ > ~/propublica-'date +"\%s"'.txt
+	0 8,12,16 * * * python3 ~/propublica_scraper.py
+
+
+control x
+y
+enter
+
+
+3. TO VIEW FILES ON YOUR EXTERNAL SERVER:
+cat [filename]
+
+
+
+
+cp root@67.205.133.233:~/propublica-data-2017-07-25-19-48.csv ~/Desktop/file_copied.txt
+
+
+
+
+
+1. SEnd the file you want to use from your machine to the external server
+YOU HAVE TO BE IN THE DIRECTOR WHERE ALGORITHMS KEY IS
+scp = secure copy
+-i ((algorithms_key)) (file you want to send) (identify yourself as root user at this ip address) :~/ is the location ON YOUR SERVER you want to send it to 
+scp -i ~/.ssh/algorithms_key scraper.py root@67.205.133.233:~/
+
+2. ON YOUR OWN EXTERNAL SERVER:
+python3 scraper.py
+create cronjob with filename
+
+
+
+
+I THINK THIS IS THE CDOE TO SEND AN EMAIL TO YOURSELF:
+
+
+import requests
+
+key = 'b461543f82207a0b6573356521d9164d'
+sandbox = 'ttps://api.mailgun.net/v3/sandboxfde15846fe8f42e1ba424520b85f9de4.mailgun.org/messages
+recipient = 'kc3053@columbia.edu'
+
+request_url = 'https://api.mailgun.net/v2/{0}/messages'.format(sandbox)
+request = requests.post(request_url, auth=('api', key), data={
+    'from': 'hello@example.com',
+    'to': recipient,
+    'subject': 'Hello',
+    'text': 'Hello from Mailgun'
+})
+
+print 'Status: {0}'.format(request.status_code)
+print 'Body:   {0}'.format(request.text)

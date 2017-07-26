@@ -1,0 +1,74 @@
+Algorithms 
+July 24th Notes
+
+SQLite-if it's too big for pandas but too lazy for postgres
+
+Post GIS
+
+Find a story with campaign finance data that was donea t the federal level and reproduce it at the local level
+
+
+SQLITE:
+
+
+FIRST: cd into the proper directory in the terminal 
+-make a new python notebook in that directory
+
+in the terminal type:
+
+get into sequal
+1) sqlite3 filename
+
+get into csv mode
+2) .mode csv
+
+(it won't return anything)
+
+set the seperator: 
+3) .separator ','
+
+#import the file and give it a name
+4) .import filename set_table_name
+
+#after looking at the data in your python notebook go back to the terminal.
+
+create an index
+5) CREATE INDEX office_idx ON table_name (set_index_name);
+
+
+#notes on openrefine: it's a java program that runs a server on your computer
+
+open open refine
+choose the files you want to open-alaska.db
+
+create a project, give it a name
+
+change it to use more gigs of ram
+
+shutdown openrefine
+
+right click on it
+show package contents
+there's a file called info.plist
+open it with a text editor
+look for xmx1024
+
+take the number of gb of ram you have
+/2
+multiply by 1024
+replace the 1024 with whatever number that is
+in our case it's 4096
+
+
+NOW open the file in openrefine
+
+Click something you can do a text filter on it
+value_counts in open refine
+text facet --> facet --> 
+in the box on the left you can get a count
+NOTE if you do anything in open refine it's only happening to what you can see
+
+Edit cells-->cluster and edit-->
+this is where you can fix things with similar words/find things that similar
+
+-->merge selected and recluster

@@ -1,0 +1,79 @@
+text facets: value counts (facet --> text facet) breaks out all of the different categories within a category
+sort by name, by count
+
+bad column --> good column:
+click drop down on menu on column --> edit column --> add column based on this column (always keep your original columns)
+Add column based on column Amount:
+
+
+openrefine:
+you can import requests, 
+Set new column name:
+Expression: [value] write: return float(value.replace('$','').replace(','','')) [we're saying get rid of the dollar sign, turn it into a float and replace the commas in the numbers]
+Language: Change it from 'General refine Expression Language' to Python 
+
+
+set new column name:
+you can get your row as a dictionary using cells:
+return cell['last/business name']['value']
+you're saying give me the row ['row name'] and the value from that row ['value']
+
+
+return cells.keys
+if "First Name" in cells:
+    first = cells["First Name"]["value"]
+else:
+first = " "
+
+
+IN THE EXPRESSION BOX
+
+try:
+    first = cells["First Name"]["value"]
+except:
+    first = " "
+
+try:
+    last = cells["Last/Business Name"]["value"]
+except:
+    last = " "
+return first + " " + last
+
+
+dropdown --> EDIT CELLS --> common transformation --> trim leading/trailing whitespace
+
+
+dropdown --> edit cells --> cluster and edit (DONT DO THIS ON YOUR COLUMN MAKE A NEW ONE WITH THE INFO)
+
+
+
+
+useful things to do:
+
+1. standardize the case: text transform lowercase (will help you tell it's the same)
+2. alphabetize the string of words
+3. get rid of repeating words
+4. edit distance / levenshtein distance : how many things you have to change to go from one thing to another e.g. alaska charr pac to alaksa chrr pac is 2 edit/levenshtein distances because it requires two edits to get there
+
+
+
+NEXT: running openrefine on our own servers
+
+openrefine.org/download.html
+
+1) right click on linux and get the address https://github.com/OpenRefine/OpenRefine/releases/download/2.7/openrefine-linux-2.7.tar.gz
+2) on your external server: wget https://github.com/OpenRefine/OpenRefine/releases/download/2.7/openrefine-linux-2.7.tar.gz
+3) tar xvzf openrefine-linux-2.7.tar.gz
+4) cd openrefine-2.7/
+5) ./refine means look in my current directory for something called refine
+6)  apt install -y default-jre
+7) our server doesn't have enough ram to run this stuff. so we're going to make a snapshot of it (because it has things we need on it) and we're going to. so go back to digital ocean click snapshots
+8) so we powered down the droplet
+9) took a snapshot of it
+10) created a new server that was bigger except not really
+11) get onto your new server: ssh -i ~/.ssh/algorithms_key root@174.138.42.162 note the different root key
+12) open open refine with command:  ~/openrefine-2.7/refine
+
+ssh -i ~/.ssh/algorithms_key root@174.138.42.162
+
+

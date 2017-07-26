@@ -1,0 +1,61 @@
+AWS: Amazon web services: a bunch of computers. 30% of the internet
+
+VPS: Virtual private server
+
+1. We created a digital ocean scraping server here: https://www.digitalocean.com/?refcode=7b89f9a41799&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=CopyPaste
+email: kaitlin.cough@gmail.com p: L9e8m706$
+
+2. Then we created a Droplet, which is basically a server. Note: Cloud server is a just a computer connected to the internet. We chose a size.
+Block storage: if you want to transfer data
+Region: if you pick newer data centers (like Bangalore, for instance) might be better. they probably go down for maintenance less.
+Additional options: didn't select any of these
+
+3. SSH Keys: you have a public and private key. Generate a key pair. This saves a public and private key on your computer. The private one stays on your computer.
+
+We ran this command in the terminal: ssh-keygen -f ~/.ssh/algorithms_key -t rsa -b 4096
+
+While in Finder (anywhere), we held down: command + shift + g
+and entered: ~/.ssh
+
+or this:
+command + shift + . 
+will show you hidden files!
+
+Open algorithms_pub.key in the text editor
+
+Copy/paste that into the SSH key area on digital ocean. Call it whatever you want.
+
+We're going to interact with our server via the command line.
+
+SETTING UP THE SERVER
+
+need to change shell to server
+on command line type: ssh -i ~/.ssh/algorithms_key root@67.205.133.233
+
+When you start a server you want to login with root, which is the god on the machine root is the user we're logging in as
+Get the IP address from digital ocean: https://cloud.digitalocean.com/droplets?i=3b99f8
+
+answer yes
+
+Next we copy/pasted this into the terminal window: 
+
+echo "export PS1=\"\[\033[40m\]\[\033[47m\]server\[\033[0m\] \[\033[31m\]\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@\h\[\033[0m\]:\w\$ \"" > ~/.bash_profile
+source ~/.bash_profile
+
+We ran this in the terminal window: 
+
+apt update
+apt -y upgrade
+
+Then this:
+
+
+
+
+
+.... way later
+
+
+SSH tunneling
+
+Local Host:7777 is on your other machine

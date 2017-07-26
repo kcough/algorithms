@@ -1,0 +1,58 @@
+Campaign Finance Data
+  From http://classic.fec.gov/finance/disclosure/ftpdet.shtml
+  ftp://ftp.fec.gov/FEC/2016/indiv16.zip
+  ftp://ftp.fec.gov/FEC/2018/indiv18.zip
+
+SQLite
+  sqlite.org, but don't install from there
+  Windows: chocolatey.org
+  SQLite meta/special commands: https://www.systutorials.com/docs/linux/man/1-sqlite3/#lbAF
+  .schema contributions
+  Create an index: CREATE INDEX indexname ON tablename (col1, col2, col3)
+
+  Queries with pandas
+    conn = sqlite3.connect("example.db")
+    df = pd.read_sql("select * from contributions where STATE = 'NY' OR STATE = 'AL'", conn)
+
+Postgres import CSV (if you ever want to know)
+  https://stackoverflow.com/questions/2987433/how-to-import-csv-file-data-into-a-postgresql-table
+
+Alaska data
+  File is CD_Transactions_07-23-2017.CSV
+  From: https://aws.state.ak.us/ApocReports/Campaign/
+  But on this subpage: https://aws.state.ak.us/ApocReports/CampaignDisclosure/CDIncome.aspx
+
+OpenRefine
+  openrefine.org
+  Wiki is useful https://github.com/OpenRefine/OpenRefine/wiki
+  GREL docs https://github.com/OpenRefine/OpenRefine/wiki/Documentation-For-Users#reference
+
+Best OpenRefine tutorials ever
+  http://www.datacarpentry.org/OpenRefine-ecology-lesson/01-working-with-openrefine/
+
+These are old but fine
+  https://www.youtube.com/watch?v=B70J_H_zAWM
+  https://www.youtube.com/watch?v=cO8NVCs_Ba0
+  https://www.youtube.com/watch?v=5tsyz3ibYzk
+
+Allocate more memory...?
+  https://github.com/OpenRefine/OpenRefine/wiki/FAQ:-Allocate-More-Memory
+
+Or start a server!
+  wget https://github.com/OpenRefine/OpenRefine/releases/download/2.7/openrefine-linux-2.7.tar.gz
+  tar xvzf openrefine-linux-2.7.tar.gz 
+  cd openrefine-2.7
+  ./refine
+  apt install -y default-jre
+  ./refine
+
+SSH tunnel
+  log onto the server, tunnel port 3333, and start running openrefine
+  OS X: ssh -i ~/.ssh/algorithms_key root@SERVER_IP -L 3333:localhost:3333 -t "~/openrefine-2.7/refine"
+  Windows #1:
+    1. http://realprogrammers.com/how_to/set_up_an_ssh_tunnel_with_putty.html
+    2. Log in, run the command (the mac one does it automatically)
+  Windows #2:
+    You can apparently use plink.exe instead, it's the same as ssh!
+    https://stackoverflow.com/questions/4974131/how-to-create-ssh-tunnel-using-putty-in-windows
+    If it's trouble, https://the.earth.li/~sgtatham/putty/0.70/htmldoc/Chapter7.html

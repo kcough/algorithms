@@ -1,0 +1,299 @@
+grep "convert" ~/.bash_history
+
+grep allows you to search for commands you've used; ~/.bash_history looks to search through all the commands you've used that you specify in quotes
+
+search for "ssh" and you'll find your ip address without having to remember
+
+
+TO CONNECT TO THE SERVER TYPE THIS IN THE TERMINAL:
+
+we use a server for repeating tasks (scraping, twitter bots-robots that check twitter to see if someone has talked to you and then response), or store information if you don't want to fill your computer up with lots of data, etc. maybe if you need lots of ram, cpu etc
+
+TO CONNECT TO THE DIGITAL OCEAN SERVER:
+
+ssh -i ~/.ssh/algorithms_key root@67.205.133.233
+
+The software on a machine that runs repeating tasks is called CRON
+
+if you wanted to scrape every minute, you could use a while loop with time.sleep(60) which would scrape things every 60 seconds. but this is bad because it'll stop running if it runs into problems
+
+so you use 
+
+CRON jobs 
+
+which runs on a fixed schedule
+
+once connected to the server:
+
+run in terminal:
+
+crontab -e
+
+press a
+
+then type:
+
+* * * * * say "it's a new minute"
+
+press esc
+
+type :wq
+
+hit enter
+
+it should say "installed a new crontab"
+
+and talk to you
+
+
+the asterisks must have space between them. here's what they mean:
+
+
+ ┌───────────── minute (0 - 59)
+ │ ┌───────────── hour (0 - 23)
+ │ │ ┌───────────── day of month (1 - 31)
+ │ │ │ ┌───────────── month (1 - 12)
+ │ │ │ │ ┌───────────── day of week (0 - 6) (Sunday to Saturday;
+ │ │ │ │ │                                       7 is also Sunday on some systems)
+ │ │ │ │ │
+ │ │ │ │ │
+ * * * * *  command to execute
+
+
+
+NOTES ON COMMANDS:
+
+0 9 * * * 
+this is run it at 9am every single day
+
+
+* 9 * * * 
+
+* means every single minute
+9 means at 9am
+* every single day
+* every single month
+* every day of the week
+
+0 16 * * * 
+-every day at 4pm
+
+0 16-18 * * *
+-every day from 4-6pm
+
+
+30 2 * * 0
+-every sunday at 2:30 am
+
+0 11 1 * * 
+-11am on the first of every month
+
+*/5 * * * * 
+-every 5 minutes (every time you can divide the mintues by 5)
+
+0 */4 * * *
+-every four hours
+
+
+ ┌───────────── minute (0 - 59)
+ │ ┌───────────── hour (0 - 23)
+ │ │ ┌───────────── day of month (1 - 31)
+ │ │ │ ┌───────────── month (1 - 12)
+ │ │ │ │ ┌───────────── day of week (0 - 6) (Sunday to Saturday;
+ │ │ │ │ │                                       7 is also Sunday on some systems)
+ │ │ │ │ │
+ │ │ │ │ │
+ * * * * *  command to execute
+
+
+-class is over at noon on thursdays and fridays
+0 12 * 7-8 4-5 say -v it_IT "class is over"
+
+
+it_IT is an italian voice
+
+
+say -v '?'
+
+gives you a list of voices
+
+
+crontab -l 
+
+will give you a list of cron jobs
+
+
+INSTALLING A SCRAPER ON YOUR SERVER THAT SCRAPES SOMETHING FROM NYT
+
+to get something from the web:
+
+in the terminal type:
+
+wget
+
+or
+
+curl
+
+so we typed: curl https://www.nytimes.com
+
+and it should give us the nyt homepage
+
+what if you want to keep a copy of it every hour? 
+
+save the output: curl https://www.nytimes.com > nytimes.txt
+
+instead save it to home directory:
+
+curl https://www.nytimes.com > ~/nytimes.txt
+
+we want to download it every two minutes:
+
+type
+
+crontab -e
+ it'll ask you what editor you want to use. hit enter to use nano
+
+ just start typing!
+
+ to scrape the page every 2 minutes:
+
+ */2 * * * * curl https://www.nytimes.com > ~/nytimes.txt#
+
+ NOTE 
+
+ ^ means control...so ^G means control G
+
+ write out means save
+
+ so once you type the command, DONT HIT ENTER
+ hit control X
+
+ then Y
+
+ it'lls ask the filname to write
+
+
+the whole process
+ crontab -e
+ hit enter for nano
+ write what you want it to do
+ control X
+ Y
+ enter
+
+
+ type:
+
+ date
+
+ mail
+
+
+  enter
+
+  q to exit
+
+USE SILENT SERVER:
+
+crontab -e
+*/2 * * * * curl --silent https://nytimes.com > ~/nytimes.txt
+control x
+Y
+enter
+
+okay, but now we have to time-stamp things, otherwise it's overwriting ? the file each time and we only see the most recent scrape
+
+two files: 1. latest.txt
+2. timestamp 2017-07-19
+
+DO THIS IN THE TERMINAL:
+
+crontab -e
+
+*/2 * * * * curl --silent https://nytimes.com > ~/nytimes.txt
+*/2 * * * * curl --silent https://www.nytimes.com > ~/nyt-`date +"\%s"`.txt
+
+control x
+Y
+enter
+
+This is saying: if what you're scraping is different, save it again. if it's the same, overwrite the file
+
+
+
+NEXT:
+
+we downloaded the scraper he put in slack, which scrapes NYT every 30 minutes
+typed this in a new terminal window NOT on our server and typed this:
+
+python3 /Users/kaitlincough/Downloads/scraper.py
+
+get yourself into the directory that has the scraper. it's downloads for us
+
+cd Downloads
+
+then type:
+
+scp -i ~/.ssh/algorithms_key
+
+misc info((((to copy a file: 
+
+cp filename newfilename))))
+
+here's the command: 
+
+scp -i ~/.ssh/algorithms_key scraper.py root@67.205.133.233:~/
+
+scp ((get onto the server)) ((file you want to run)) ((where to save it))
+
+here's what it looks like:
+
+dyn-160-39-134-251:Downloads kaitlincough$ scp -i ~/.ssh/algorithms_key scraper.py root@67.205.133.233:~/
+
+: after IP key means save it in the home directory
+
+type python3 scraper.py
+
+it shouldn't output anything but you should have a file
+
+GO BACK TO THE OTHER TERMINAL WINDOW WITH THE OTHER SERVER 
+
+type:
+
+crontab -e
+
+((add python3 ~/scraper.py)) to the other two lines, so it looks like this:
+
+*/2 * * * * curl --silent https://nytimes.com > ~/nytimes.txt
+*/2 * * * * curl --silent https://www.nytimes.com > ~/nyt-`date +"\%s"`.txt
+*/30 * * * * python3 ~/Users/kaitlincough/Downloads/scraper.py
+
+control x
+y
+enter
+
+
+BACK ON YOUR MACHINE, IN THE OTHER TERMINAL WINDOW: 
+
+scp -i ~/.ssh/algorithms_key root@67.205.133.233:~/nyt*.txt .
+
+
+
+to tell the difference between two files:
+
+cd into diffing
+
+type:
+
+diff output.csv output2.csv
+
+in the terminal
+
+and it will tell you the differences between those files
+
+SO THE SCRAPER IS RUNNING ON THE DIGITAL OCEAN SERVER, BUT THE RESULTS ARE BEING STORED ON OUR MACHINE? CONFUSED
+
+
+
+
